@@ -102,6 +102,26 @@
         .logout:hover {
             background-color: #FFB6C1;
         }
+        .heart {
+            position: fixed;
+            font-size: 24px;
+            user-select: none;
+            animation: floatUpAndFade 4s ease-in forwards;
+        }
+
+        @keyframes floatUpAndFade {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -123,39 +143,34 @@
 </div>
 
 <script>
-    function addBalloon() {
-        const balloon = document.createElement('div');
-        balloon.className = 'balloon';
-        balloon.innerHTML = '🎈';
-        balloon.style.left = Math.random() * window.innerWidth + 'px';
-        balloon.style.animationDelay = Math.random() * 2 + 's';
-        document.body.appendChild(balloon);
+    // Fungsi untuk membuat heart
+    function createHeart() {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.innerHTML = '💝';
+        // Posisi random di sumbu X
+        heart.style.left = `${Math.random() * 100}%`;
+        document.body.appendChild(heart);
         
-        setTimeout(() => {
-            balloon.remove();
-        }, 6000);
+        // Hapus heart setelah animasi selesai
+        heart.addEventListener('animationend', () => {
+            heart.remove();
+        });
     }
 
-    function calculateAge() {
-        // Ganti dengan tanggal lahir yang sesuai
-        const birthDate = new Date('2005-01-15'); // Format: YYYY-MM-DD
-        const today = new Date();
-        
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const monthDiff = today.getMonth() - birthDate.getMonth();
-        
-        // Mengurangi 1 tahun jika belum mencapai bulan dan tanggal ulang tahun
-        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
+    // Fungsi untuk memulai pembuatan hearts
+    function startHearts() {
+        // Buat beberapa heart di awal
+        for(let i = 0; i < 5; i++) {
+            setTimeout(() => createHeart(), i * 300);
         }
         
-        return age;
+        // Buat heart baru setiap 800ms
+        setInterval(createHeart, 800);
     }
 
-    // Menampilkan umur di elemen dengan id "age"
-    document.getElementById('age').textContent = calculateAge();
-
-    setInterval(addBalloon, 1000);
+    // Jalankan fungsi saat halaman dimuat
+    window.addEventListener('load', startHearts);
 </script>
 </body>
 </html>
