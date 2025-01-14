@@ -1,0 +1,298 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Ulang Tahun Dini!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #FFE4E1, #FFB6C1);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 1s infinite;
+        }
+
+        .container {
+            text-align: center;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(255, 105, 180, 0.2);
+            backdrop-filter: blur(8px);
+            animation: fadeIn 1s ease-out;
+            z-index: 1;
+            max-width: 90%;
+            width: 500px;
+        }
+
+        h1 {
+            color: #FF69B4;
+            font-size: 2.8em;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1.3em;
+            line-height: 1.6;
+        }
+
+        .enter-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #FF69B4, #FFB6C1);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 1.2em;
+            transition: all 0.3s;
+            animation: pulse 2s infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .enter-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+        }
+
+        .enter-button::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        .emoji-container {
+            position: relative;
+            height: 100px;
+            margin: 2rem 0;
+        }
+
+        .emoji {
+            font-size: 4em;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: float 3s ease-in-out infinite;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .emoji:hover {
+            transform: translateX(-50%) scale(1.2);
+        }
+
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 2;
+            font-size: 1.5em;
+            transition: transform 0.3s;
+        }
+
+        .music-control:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes shine {
+            from {
+                transform: rotate(45deg) translateX(-200%);
+            }
+            to {
+                transform: rotate(45deg) translateX(200%);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-20px); }
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .countdown {
+            font-size: 1.2em;
+            color: #FF69B4;
+            margin-bottom: 1rem;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 1.5em;
+            animation: floatHeart 4s linear infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <audio autoplay loop id="backgroundMusic">
+            <source src="audio3.mp3" type="audio/mpeg">
+        </audio>
+    <div class="stars"></div>
+    
+    <div class="container">
+        <div class="emoji-container">
+            <div class="emoji" id="birthdayEmoji">🎂</div>
+        </div>
+        <h1>Dini's Birthday Celebration</h1>
+        <div class="countdown" id="countdown"></div>
+
+        <a href="birthday.html" class="enter-button" id="enterBtn">Masuk →</a>
+    </div>
+
+    <div class="music-control" id="musicControl">🔈</div>
+
+    <audio id="backgroundMusic" loop>
+        <source src="https://example.com/birthday-music.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Create starry background
+        function createStars() {
+            const starsContainer = document.querySelector('.stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.animationDelay = `${Math.random() * 2}s`;
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Create floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '💝';
+            heart.style.left = `${Math.random() * 100}%`;
+            document.body.appendChild(heart);
+
+            heart.addEventListener('animationend', () => {
+                heart.remove();
+            });
+        }
+
+        // Birthday countdown
+        function updateCountdown() {
+            const birthday = new Date('2025-01-15'); // Set the birthday date
+            const now = new Date();
+            const diff = birthday - now;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById('countdown').textContent = 
+                `${days} hari ${hours} jam ${minutes} menit menuju ulang tahun!`;
+        }
+
+        // Music controls
+        let isMusicPlaying = false;
+        const music = document.getElementById('backgroundMusic');
+        const musicControl = document.getElementById('musicControl');
+
+        musicControl.addEventListener('click', () => {
+            if (isMusicPlaying) {
+                music.pause();
+                musicControl.textContent = '🔈';
+            } else {
+                music.play();
+                musicControl.textContent = '🔊';
+            }
+            isMusicPlaying = !isMusicPlaying;
+        });
+
+        // Cake click interaction
+        const birthdayEmoji = document.getElementById('birthdayEmoji');
+        let clickCount = 0;
+        const emojis = ['🎂', '🎈', '🎉', '🎊', '🎁'];
+
+        birthdayEmoji.addEventListener('click', () => {
+            clickCount++;
+            birthdayEmoji.textContent = emojis[clickCount % emojis.length];
+            createHeart();
+            
+            if (clickCount === 5) {
+                document.querySelector('.container').style.animation = 'pulse 0.5s infinite';
+                setTimeout(() => {
+                    document.querySelector('.container').style.animation = '';
+                }, 2000);
+            }
+        });
+
+        // Initialize
+        createStars();
+        setInterval(updateCountdown, 1000);
+        setInterval(createHeart, 3000);
+    </script>
+</body>
+</html>

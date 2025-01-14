@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kartu Ucapan Ulang Tahun</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #FFE4E1;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .card-container {
+            perspective: 1000px;
+            width: 500px;  /* Diperbesar dari 300px */
+            height: 600px; /* Diperbesar dari 400px */
+            cursor: pointer;
+        }
+        .card {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+        }
+        .card.opened {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;  /* Diperbesar dari 20px */
+            box-sizing: border-box;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .card-front {
+            background: linear-gradient(45deg, #FF69B4, #FFB6C1);
+            color: white;
+        }
+        .card-back {
+            background: white;
+            transform: rotateY(180deg);
+            color: #FF69B4;
+            padding: 40px;  /* Padding lebih besar untuk konten belakang */
+        }
+        .card-title {
+            font-size: 2em;  /* Diperbesar dari 1.5em */
+            margin-bottom: 30px;  /* Diperbesar dari 20px */
+            text-align: center;
+            width: 100%;
+            word-wrap: break-word;
+            line-height: 1.3;
+        }
+        .card-message {
+            font-size: 1.2em;  /* Diperbesar dari 1.1em */
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #FF69B4;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #FF1493;
+        }
+        .envelope {
+            font-size: 4em;  /* Diperbesar dari 3em */
+            margin-bottom: 30px;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            pointer-events: none;
+        }
+
+        /* Media query untuk layar kecil */
+        @media (max-width: 480px) {
+            .card-container {
+                width: 320px;
+                height: 450px;
+            }
+            .card-title {
+                font-size: 1.6em;
+            }
+            .card-message {
+                font-size: 1.1em;
+            }
+            .envelope {
+                font-size: 3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Tambahkan ini di awal body -->
+    <audio autoplay loop id="backgroundMusic">
+        <source src="audio.mp3" type="audio/mpeg">
+    </audio>
+
+    <a href="birthday.html" class="back-button">← Kembali</a>
+    
+    <div class="card-container">
+        <div class="card">
+            <div class="card-front">
+                <div class="envelope">✉️</div>
+                <div class="card-title">Klik untuk membuka kartu!</div>
+            </div>
+            <div class="card-back">
+                <div class="card-title"></style><b>Selamat Ulang Tahun Dini</b></div>
+                <div class="card-message">
+                   <p>Selamat sudah memasuki umur yang ke 20 tahun oiii, ini sebenarnya aku bingung
+                    mau ngetik apa yak! Ya mungkin sedikit cerita aja lagi, Pertama ketemu di smp 1 pas kelas 9
+                    aku cuma tau raja pas itu. Terus tiba-tiba kenal kamu karena kamu orangnya mudah diajak obrol
+                    dan asik. Makasih sudah selalu menjadi orang yang baik, tidak sombong dan selalu memberikan air safron ke aku dan raja.
+                    Habis ini bilang "Aamin". Semoga dini dan sekeluarga sehat-sehat terus yak, semangat kuliahnya, sukses dunia dan akhirat,
+                    terus jadi orang baik, dan semoga apa yang kamu impikan dapat tercapai. Ditunggu konser Feast dan Hindia bareng.
+
+                    Do your best and Let God do the rest! Arigatouuu
+                   </p> 
+
+               
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const card = document.querySelector('.card');
+        card.addEventListener('click', function() {
+            this.classList.toggle('opened');
+            if (this.classList.contains('opened')) {
+                createConfetti();
+            }
+        });
+
+        function createConfetti() {
+            const colors = ['#FF69B4', '#FFB6C1', '#FFC0CB', '#FFD700', '#87CEEB'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
+                confetti.style.opacity = Math.random();
+                document.body.appendChild(confetti);
+
+                setTimeout(() => confetti.remove(), 5000);
+            }
+        }
+
+        document.head.insertAdjacentHTML('beforeend', `
+            <style>
+                @keyframes fall {
+                    to {
+                        transform: translateY(100vh) rotate(360deg);
+                    }
+                }
+            </style>
+        `);
+    </script>
+</body>
+</html>

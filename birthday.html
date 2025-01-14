@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Ulang Tahun!</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #FFE4E1;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        .birthday-container {
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .birthday-text {
+            font-size: 2.5em;
+            color: #FF69B4;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards;
+        }
+        .balloon {
+            font-size: 2em;
+            position: fixed;
+            animation: float 6s infinite;
+            z-index: 0;
+        }
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #FF69B4;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .back-button:hover {
+            background-color: #FF1493;
+        }
+        .button-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .special-button {
+            background: linear-gradient(45deg, #FF69B4, #FFB6C1);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            animation: pulse 2s infinite;
+        }
+        .special-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(-100vh) rotate(0deg); }
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .logout {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #FFC0CB;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            z-index: 2;
+        }
+        .logout:hover {
+            background-color: #FFB6C1;
+        }
+    </style>
+</head>
+<body>
+
+<audio autoplay loop id="backgroundMusic">
+    <source src="audio2.mp3" type="audio/mpeg">
+</audio>
+
+<a href="index.html" class="back-button">← Kembali</a>
+
+<div class="birthday-container">
+    <div class="birthday-text">
+        <b>Selamat Ulang Tahun Kentut! 🎉</b><br>
+    </div>
+    <div class="button-container">
+        <a href="kartu_ucapan.html" class="special-button">✉️ Buka Kartu Ucapan</a>
+        <a href="bunga.html" class="special-button">🎁 Lihat Hadiah</a>
+    </div>
+</div>
+
+<script>
+    function addBalloon() {
+        const balloon = document.createElement('div');
+        balloon.className = 'balloon';
+        balloon.innerHTML = '🎈';
+        balloon.style.left = Math.random() * window.innerWidth + 'px';
+        balloon.style.animationDelay = Math.random() * 2 + 's';
+        document.body.appendChild(balloon);
+        
+        setTimeout(() => {
+            balloon.remove();
+        }, 6000);
+    }
+
+    function calculateAge() {
+        // Ganti dengan tanggal lahir yang sesuai
+        const birthDate = new Date('2005-01-15'); // Format: YYYY-MM-DD
+        const today = new Date();
+        
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        
+        // Mengurangi 1 tahun jika belum mencapai bulan dan tanggal ulang tahun
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        
+        return age;
+    }
+
+    // Menampilkan umur di elemen dengan id "age"
+    document.getElementById('age').textContent = calculateAge();
+
+    setInterval(addBalloon, 1000);
+</script>
+</body>
+</html>
