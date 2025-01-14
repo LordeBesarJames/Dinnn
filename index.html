@@ -241,20 +241,6 @@
             });
         }
 
-        // Birthday countdown
-        function updateCountdown() {
-            const birthday = new Date('2025-01-15'); // Set the birthday date
-            const now = new Date();
-            const diff = birthday - now;
-
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-
-            document.getElementById('countdown').textContent = 
-                `${days} hari ${hours} jam ${minutes} menit menuju ulang tahun!`;
-        }
-
         // Music controls
         let isMusicPlaying = false;
         const music = document.getElementById('backgroundMusic');
